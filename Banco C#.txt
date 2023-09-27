@@ -1,0 +1,72 @@
+create database tcc_vacina;
+
+use tcc_vacina;
+
+
+create table funcionario
+(
+    id_funcionario int primary key not null auto_increment,
+    nome_funcionario varchar(40),
+    telefone_funcionario varchar(15),
+    endereco_funcionario varchar(50),
+    email_funcionario varchar(45) unique,
+    hospital_funcionario varchar(50),
+    usuario_funcionario varchar (30) unique,
+    senha_funcionario varchar (30)
+);
+ 
+
+create table pessoa
+(
+cpf_pessoa varchar(80) primary key unique,
+sexo_pessoa enum('M','F'),
+nome_pessoa varchar(40),
+nascimento_pessoa date,
+email_pessoa varchar(45),
+endereco_pessoa varchar(50),
+cep_pessoa varchar(8),
+telefone_pessoa varchar(15),
+senha_pessoa varchar(20)
+);
+
+create table cartaovacina
+(
+id_cartaovacina int primary key auto_increment,
+cpf_pessoa varchar(80),
+nome_vacina varchar(30),
+dose_vacina int,
+data_vacina date,
+lote_vacina varchar(20),
+id_funcionario int,
+foreign key (id_funcionario) references funcionario (id_funcionario),
+foreign key (cpf_pessoa) references pessoa (cpf_pessoa)
+);
+
+create table pessoa_filho 
+(
+	id_filho varchar(80) primary key,
+    nome_filho varchar (50),
+    nascimento_filho date,
+    sexo_filho enum ('M','F'),
+    cpf_pessoa varchar(80),
+    foreign key (cpf_pessoa) references pessoa (cpf_pessoa)
+);
+
+
+create table cartaovacina_infantil
+(
+    id_cartaovacina_infantil int auto_increment primary key,
+    id_filho varchar(80),
+    cpf_responsavel varchar(80),
+    nome_vacina varchar(25),
+    dose_vacina int,
+    lote_vacina varchar(25),
+    data_vacina date,
+    id_funcionario int,
+    foreign key (id_funcionario) references funcionario (id_funcionario),
+    foreign key (id_filho) references pessoa_filho (id_filho),
+    foreign key (cpf_responsavel) references pessoa (cpf_pessoa)
+);
+
+
+
